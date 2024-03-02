@@ -18,7 +18,7 @@ const useTheme = () => {
     }
 
     document.documentElement.classList.add('h-full')
-    document.documentElement.classList.add('bg-gray-50')
+    document.documentElement.classList.add('bg-gray-100')
     // const backgroundColor = isDarkTheme ? 'bg-gray-800' : 'bg-white'
     // document.documentElement.classList.add(backgroundColor)
     document.body.classList.add('h-full')

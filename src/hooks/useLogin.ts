@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { CACHE_KEY_LOGIN_USER, defaultFunction } from '../constants'
-import APIClient from '../api/client'
+import APIClient from '@/api/client'
 import useAuthStore from '../store/authStore'
 
 export type AuthenticationData = {

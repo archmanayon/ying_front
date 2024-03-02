@@ -6,23 +6,23 @@ import {
 import LoginPage from './auth/LoginPage'
 import ErrorPage from './components/ErrorPage'
 import Layout from './components/Layout'
-import BookSales from './feature/book-sales/BookSales'
-import XlsxImport from './feature/import/XlsxImport'
+import Royalties from './feature/royalties/Royalties'
+import ImportRoyalties from './feature/import'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       {/* <Route path="/" element={<Layout />} errorElement={<ErrorPage />} /> */}
       <Route path="/" element={<Layout />} errorElement={<ErrorPage />}>
-        <Route index element={<BookSales />} />
+        <Route index element={<Royalties />} />
         <Route
-          path="sales"
-          element={<BookSales />}
+          path="book-sales"
+          element={<Royalties />}
           errorElement={<ErrorPage />}
         />
         <Route
           path="import"
-          element={<XlsxImport />}
+          element={<ImportRoyalties />}
           errorElement={<ErrorPage />}
         />
       </Route>

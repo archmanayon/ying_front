@@ -10,7 +10,7 @@ const useToastify = () => {
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
-      theme: 'light',
+      theme: 'dark',
       position: 'top-center',
       toastId,
     })

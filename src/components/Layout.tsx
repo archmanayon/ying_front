@@ -1,7 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import { useEffect } from 'react'
 import Navbar from './Navbar'
-import PageHeader from './PageHeader'
 import useTheme from '../hooks/useTheme'
 import useAuthStore from '../store/authStore'
 
@@ -17,15 +16,10 @@ const Layout = () => {
   if (!isAuthenticated) return <Navigate to="/login" />
 
   return (
-    <div>
+    <div className="min-h-full">
       <Navbar />
-      <PageHeader />
 
-      <main className="h-full py-5 lg:pl-52">
-        <div className="h-full px-4 sm:px-6 lg:px-8">
-          <Outlet />
-        </div>
-      </main>
+      <Outlet />
     </div>
   )
 }

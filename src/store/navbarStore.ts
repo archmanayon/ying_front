@@ -34,6 +34,7 @@ const useNavbarStore = create<NavigationOptionsStore>((set) => ({
       to: '/book-sales',
       icon: MenuBookIcon,
       current: true,
+      title: 'Book Sales',
       // For reference, when creating sub menus
       // subMenu: [
       //   { name: 'Agent Builder', to: '/agents' },
@@ -45,10 +46,11 @@ const useNavbarStore = create<NavigationOptionsStore>((set) => ({
       to: '/import',
       icon: UploadFileIcon,
       current: false,
+      title: 'Royalties Import',
     },
   ],
   userOptions: [
-    { name: 'Your profile', to: '/users' },
+    { name: 'Your profile', to: '/' },
     {
       name: 'Sign out',
       to: '/login',
