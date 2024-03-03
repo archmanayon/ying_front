@@ -3,7 +3,7 @@ import useAuthStore from '../store/authStore'
 import useToastify from '@/hooks/useToastify'
 // import useToastify from '../hooks/useToastify'
 
-const baseURL = import.meta.env.VITE_BASE_URL + '/api' ?? 'http://localhost/api'
+const baseURL = import.meta.env.VITE_BASE_URL + '/api'
 
 export const axiosInstance = axios.create({
   baseURL,

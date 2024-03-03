@@ -36,7 +36,7 @@ const useAuthStore = create<AuthStore>(
           isAuthenticated: true,
         }),
       reset: () => set({ ...initialState, isAuthenticated: false }),
-      isAuthenticated: !!get()?.isAuthenticated ?? false,
+      isAuthenticated: get()?.isAuthenticated ?? false,
     }),
     { name: AUTH_KEY },
   ),
