@@ -1,6 +1,6 @@
-import { toast } from 'react-toastify'
+import { toast, ToastOptions } from 'react-toastify'
 
-const useToastify = () => {
+const useToastify = (options: ToastOptions = {}) => {
   const showMessage = (
     toastFunction: typeof toast.error,
     message: string,
@@ -13,6 +13,7 @@ const useToastify = () => {
       theme: 'dark',
       position: 'top-center',
       toastId,
+      autoClose: options.autoClose,
     })
   }
   const toastError = (message: string, toastId?: string) =>

@@ -3,25 +3,21 @@ import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk'
 import { CommandLineIcon } from '@heroicons/react/24/outline'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
+import AssessmentIcon from '@mui/icons-material/Assessment'
 import useAuthStore from './authStore'
-
-export type NavigationOption = {
-  name: string
-  to: string
-  icon: typeof PhoneInTalkIcon | typeof CommandLineIcon
-  current: boolean
-  subMenu?: Option[]
-  adminOnly?: boolean
-}
 
 export type Option = {
   name: string
   to: string
+  icon?: typeof PhoneInTalkIcon | typeof CommandLineIcon
+  current?: boolean
+  subMenu?: Option[]
+  adminOnly?: boolean
   command?: () => void
 }
 
 type NavigationOptionsStore = {
-  options: NavigationOption[]
+  options: Option[]
   userOptions: Option[]
   sidebarOpen: boolean
   setSidebarOpen: (value: boolean) => void
@@ -30,11 +26,10 @@ type NavigationOptionsStore = {
 const useNavbarStore = create<NavigationOptionsStore>((set) => ({
   options: [
     {
-      name: 'Book Sales',
-      to: '/book-sales',
+      name: 'Royalties',
+      to: '/',
       icon: MenuBookIcon,
       current: true,
-      title: 'Book Sales',
       // For reference, when creating sub menus
       // subMenu: [
       //   { name: 'Agent Builder', to: '/agents' },
@@ -46,11 +41,15 @@ const useNavbarStore = create<NavigationOptionsStore>((set) => ({
       to: '/import',
       icon: UploadFileIcon,
       current: false,
-      title: 'Royalties Import',
+    },
+    {
+      name: 'Reports',
+      to: '/reports',
+      icon: AssessmentIcon,
+      current: false,
     },
   ],
   userOptions: [
-    { name: 'Your profile', to: '/' },
     {
       name: 'Sign out',
       to: '/login',

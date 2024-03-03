@@ -5,6 +5,8 @@ import useLogin from '../hooks/useLogin'
 import { useFormik } from 'formik'
 import { Navigate } from 'react-router-dom'
 import * as Yup from 'yup'
+import { useEffect } from 'react'
+import usePageTitle from '@/hooks/usePageTitle'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().max(255).required().label('Email'),
@@ -17,6 +19,7 @@ const initialFormData = {
 }
 
 const LoginPage = () => {
+  usePageTitle('Login')
   const { mutate: login } = useLogin(() => formik.resetForm())
   const formik = useFormik({
     initialValues: { ...initialFormData },
@@ -26,11 +29,11 @@ const LoginPage = () => {
   const isAuthenticated = useAuthStore((store) => store.isAuthenticated)
   // const { setAppTheme } = useTheme()
 
-  // useEffect(() => {
-  //   setAppTheme()
-  // }, [setAppTheme])
+  useEffect(() => {
+    document.documentElement.classList.add('bg-gray-100')
+  }, [])
 
-  if (isAuthenticated) return <Navigate to="/import" />
+  if (isAuthenticated) return <Navigate to="/" />
 
   return (
     <>
@@ -38,7 +41,7 @@ const LoginPage = () => {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
             className="mx-auto h-10 w-auto"
-            src="https://i.imgur.com/WAjZ5X0.png"
+            src="https://i.imgur.com/1W7q7Zs.png"
             alt="EC Publishing LLC"
           />
           <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">

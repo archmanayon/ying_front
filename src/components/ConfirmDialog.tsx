@@ -5,9 +5,16 @@ type Props = {
   onClose: () => void
   onConfirm: () => void
   message: string
+  confirmLabel?: string
 }
 
-const ConfirmDialog = ({ open, onClose, onConfirm, message }: Props) => {
+const ConfirmDialog = ({
+  open,
+  onClose,
+  onConfirm,
+  message,
+  confirmLabel = 'OK',
+}: Props) => {
   return (
     <Dialog
       open={open}
@@ -21,7 +28,7 @@ const ConfirmDialog = ({ open, onClose, onConfirm, message }: Props) => {
       <div className="buttons flex justify-end">
         <DialogDismiss className="button secondary">Cancel</DialogDismiss>
         <Button className="button" onClick={onConfirm}>
-          Okay
+          {confirmLabel}
         </Button>
       </div>
     </Dialog>

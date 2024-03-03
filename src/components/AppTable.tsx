@@ -18,22 +18,22 @@ const AppTable = ({ columns, rows, duplicates }: Props) => {
       {/* overflow-x-auto */}
       <div className="-m-1.5 ">
         <div className="inline-block min-w-full p-1.5 align-middle">
-          <div className="overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-              <thead>
-                <tr>
+          <div className="relative">
+            <table className="mt-3 min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="sticky top-0 z-20 bg-gray-100">
+                <tr className="">
                   {columns.map((column, index) => (
                     <th
                       key={index}
                       scope="col"
-                      className="px-6 py-3 text-start text-xs font-medium uppercase text-gray-500"
+                      className="h-12 px-6 py-5 text-start text-xs font-semibold uppercase text-gray-500"
                     >
                       {column}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+              <tbody className="z-10 divide-y divide-gray-200 dark:divide-gray-700">
                 {rows.map((row, index) => (
                   <tr key={index}>
                     {columns.map((column, tdIndex) => (
@@ -41,7 +41,9 @@ const AppTable = ({ columns, rows, duplicates }: Props) => {
                         key={tdIndex}
                         className={cn(
                           'whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-gray-200',
-                          'text-red-700',
+                          duplicates.includes(index)
+                            ? 'text-red-700 opacity-70'
+                            : '',
                         )}
                       >
                         {row[column]}

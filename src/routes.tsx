@@ -8,6 +8,7 @@ import ErrorPage from './components/ErrorPage'
 import Layout from './components/Layout'
 import Royalties from './feature/royalties/Royalties'
 import ImportRoyalties from './feature/import'
+import Reports from './feature/reports/Reports'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,14 +16,19 @@ const router = createBrowserRouter(
       {/* <Route path="/" element={<Layout />} errorElement={<ErrorPage />} /> */}
       <Route path="/" element={<Layout />} errorElement={<ErrorPage />}>
         <Route index element={<Royalties />} />
-        <Route
-          path="book-sales"
+        {/* <Route
+          path="royalties"
           element={<Royalties />}
           errorElement={<ErrorPage />}
-        />
+        /> */}
         <Route
           path="import"
           element={<ImportRoyalties />}
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="reports"
+          element={<Reports />}
           errorElement={<ErrorPage />}
         />
       </Route>

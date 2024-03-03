@@ -1,14 +1,9 @@
 import { cn } from '@/helpers'
-import useNavbarStore from '@/store/navbarStore'
-import React from 'react'
+import useNavbarStore, { Option } from '@/store/navbarStore'
 import { NavLink } from 'react-router-dom'
 
 type Props = {
-  item: {
-    name: string
-    to: string
-    icon?: React.ElementType
-  }
+  item: Option
   activeClass?: string
   inactiveClass?: string
   className?: string
@@ -23,7 +18,11 @@ const NavbarLink = ({ item, activeClass, inactiveClass, className }: Props) => {
       className={({ isActive }) =>
         cn(isActive ? activeClass ?? '' : inactiveClass ?? '', className ?? '')
       }
-      onClick={() => setSidebarOpen(false)}
+      onClick={() => {
+        setSidebarOpen(false)
+        if (item.command) item.command()
+      }}
+      aria-current={item.current ? 'page' : undefined}
     >
       {item.icon && (
         <item.icon className="mr-1 h-6 w-6 shrink-0" aria-hidden="true" />

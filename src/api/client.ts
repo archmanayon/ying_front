@@ -25,8 +25,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error?.response && error?.response?.status === 401) {
       useAuthStore.getState().reset()
-      // axiosInstance.post('/logout').catch(() => {})
-      console.log('# 401')
+      console.log('401')
     }
 
     const message = error?.response?.data?.message || error.message

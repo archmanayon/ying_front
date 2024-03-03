@@ -18,7 +18,6 @@ const Layout = () => {
   return (
     <div className="min-h-full">
       <Navbar />
-
       <Outlet />
     </div>
   )
