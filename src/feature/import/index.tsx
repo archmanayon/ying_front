@@ -6,6 +6,7 @@ import useToastify from '@/hooks/useToastify'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
+import TaskAltIcon from '@mui/icons-material/TaskAlt'
 import LoopIcon from '@mui/icons-material/Loop'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import { cn } from '@/helpers'
@@ -27,16 +28,21 @@ const ImportRoyalties = () => {
   const [duplicates, setDuplicates] = useState<number[]>([])
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const { toastError } = useToastify()
-  const { toastWarning, toastSuccess } = useToastify({ autoClose: false })
+  const { toastError, clear } = useToastify()
+  const { toastSuccess } = useToastify({ autoClose: false })
+  const [importFinished, setImportFinished] = useState(false)
   const { mutate, isPending } = useImport((response) => {
-    if (response?.duplicates.length)
-      toastWarning('Duplicates found: ' + response?.duplicates.length)
-
     setDuplicates(response?.duplicates ?? [])
 
     if (response?.imported)
-      toastSuccess(`Successful import: ${response.imported}`)
+      toastSuccess(
+        <>
+          <p>Successful import: {response?.duplicates.length}</p>
+          <p>Duplicates found: {response.imported}</p>
+        </>,
+      )
+
+    setImportFinished(true)
   })
   const [showDialog, setShowDialog] = useState(false)
   usePageTitle('Import')
@@ -121,18 +127,20 @@ const ImportRoyalties = () => {
         }
 
         reader.readAsBinaryString(file)
+        setImportFinished(false)
       }
     }
   }
 
   const handleImport = () => {
     if (!columns.length) toastError('Please select a file to import.')
-    const tryme: Row[] = []
+    const rows: Row[] = []
     gridRef.current?.api.forEachNodeAfterFilterAndSort((rowNode) => {
-      tryme.push(rowNode.data)
+      rows.push(rowNode.data)
     })
+    clear()
 
-    mutate({ ...tryme })
+    mutate({ ...rows })
   }
 
   const handleClear = () => {
@@ -182,7 +190,12 @@ const ImportRoyalties = () => {
       <LayoutContainer title="Import Royalties">
         <div className="space-y-5">
           <div className="flex items-center gap-3">
-            <div className="w-full rounded-lg border border-dashed border-gray-600 bg-gray-100">
+            <div
+              className={cn(
+                'relative w-full rounded-lg border-2 border-dashed bg-gray-100',
+                importFinished ? 'border-green-600' : 'border-gray-600',
+              )}
+            >
               <label
                 htmlFor="file-upload"
                 className={cn(
@@ -204,6 +217,11 @@ const ImportRoyalties = () => {
                 ref={fileInputRef}
                 disabled={isPending}
               />
+              {importFinished && (
+                <div className="absolute right-2 top-2 h-full items-center justify-center">
+                  <TaskAltIcon className="text-green-600" />
+                </div>
+              )}
             </div>
             <Button
               className="button"
