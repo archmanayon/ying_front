@@ -48,6 +48,17 @@ const useNavbarStore = create<NavigationOptionsStore>((set) => ({
       icon: AssessmentIcon,
       current: false,
     },
+    {
+      name: 'Authors',
+      to: '/authorList',
+      icon: MenuBookIcon,
+      current: true,
+      // For reference, when creating sub menus
+      // subMenu: [
+      //   { name: 'Agent Builder', to: '/agents' },
+      //   { name: 'Widget Builder', to: '/widgets' },
+      // ],
+    },
   ],
   userOptions: [
     {
