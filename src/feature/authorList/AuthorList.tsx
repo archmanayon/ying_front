@@ -2,26 +2,24 @@ import LayoutContainer from '@/components/LayoutContainer'
 import { Row } from '@/hooks/useImport'
 import usePageTitle from '@/hooks/usePageTitle'
 import useRoyalties from '@/hooks/useRoyalties'
+import LoopIcon from '@mui/icons-material/Loop'
 import { ColDef } from 'ag-grid-community'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-quartz.css'
-import LoopIcon from '@mui/icons-material/Loop'
+import { AgGridReact } from 'ag-grid-react'
+import { useMemo, useRef, useState } from 'react'
 
 const AuthorList = () => {
   usePageTitle('Author List')
 
   const [gridApi, setGridApi] = useState(null)
   const [selectedAuthor, setSelectedAuthor] = useState('')
-  const [selectedDate, setSelectedDate] = useState('')
   const [authors, SetAuthors] = useState({})
   const [bookTitles, SetBookTitles] = useState({})
   const [selectedTitle, setSelectedTitle] = useState('')
   const [columns, setColumns] = useState<ColDef[]>([])
   const [rows, setRows] = useState<Row[]>([])
   const { data, isPending } = useRoyalties()
-  const gridRef = useRef<AgGridReact>(null)
 
   // useMemo to memorize the unique authors
   useMemo(() => {
@@ -55,7 +53,7 @@ const AuthorList = () => {
     )
   }
 
-  // Author dropdown change handler
+  // Author dropdown (dapat 'newAuthor jud' fresh with 'SelectedTItle')
   const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newAuthor = event.target.value
     setSelectedAuthor(newAuthor)
@@ -71,7 +69,6 @@ const AuthorList = () => {
 
   // Function to apply both author and title filters
   const applyFilters = (author: string, title: string) => {
-    // Ensure that the gridApi is available
     if (gridApi) {
       // Get the current filter model
       const currentFilterModel = gridApi.getFilterModel()
@@ -89,27 +86,10 @@ const AuthorList = () => {
     }
   }
 
-  // Function to apply both author and title filters
-  // const applyFilters = (author, title) => {
-  //   const authorFilterComponent = gridApi?.getFilterInstance('author')
-  //   const titleFilterComponent = gridApi?.getFilterInstance('title')
-
-  //   authorFilterComponent.setModel({
-  //     type: 'contains',
-  //     filter: author,
-  //   })
-  //   titleFilterComponent.setModel({
-  //     type: 'contains',
-  //     filter: title,
-  //   })
-
-  //   gridApi?.onFilterChanged()
-  // }
-  // AG Grid ready event
   const onGridReady = (params: any) => {
     setGridApi(params.api)
   }
-
+  console.log(gridApi)
   return (
     <div>
       <LayoutContainer
