@@ -2,9 +2,17 @@ type Props = {
   children: React.ReactNode
   title: string
   onInput?: (search: string) => void
+  authors?: string[]
+  onselect?: (search: string) => void
 }
 
-const LayoutContainer = ({ title, children, onInput }: Props) => {
+const LayoutContainer = ({
+  title,
+  children,
+  onInput,
+  authors,
+  onselect,
+}: Props) => {
   return (
     <>
       <div className="py-5">
@@ -21,6 +29,21 @@ const LayoutContainer = ({ title, children, onInput }: Props) => {
                   placeholder="Search"
                   onInput={(e) => onInput(e.currentTarget.value)}
                 />
+              </div>
+            )}
+            {onselect && (
+              <div>
+                <select
+                  onChange={(e) => onselect(e.currentTarget.value)}
+                  value=""
+                >
+                  <option value="">Select an Author</option>
+                  {authors?.map((author, index) => (
+                    <option key={index} value={author}>
+                      {author}
+                    </option>
+                  ))}
+                </select>
               </div>
             )}
           </div>
