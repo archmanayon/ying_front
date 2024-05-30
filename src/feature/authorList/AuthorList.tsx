@@ -56,43 +56,66 @@ const AuthorList = () => {
   }
 
   // Author dropdown change handler
-  const onselect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newAuthor = event.target.value
     setSelectedAuthor(newAuthor)
-    gridApi?.updateGridOptions({ quickFilterText: newAuthor })
+    applyFilters(newAuthor, selectedTitle)
   }
 
   // bookTitles dropdown handler
   const onTitle = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newTitle = event.target.value
-    setSelectedAuthor(newTitle)
-    gridApi?.updateGridOptions({ quickFilterText: newTitle })
+    setSelectedTitle(newTitle)
+    applyFilters(selectedAuthor, newTitle)
   }
 
-  // Date filter handler
+  // Function to apply both author and title filters
+  const applyFilters = (author: string, title: string) => {
+    // Ensure that the gridApi is available
+    if (gridApi) {
+      // Get the current filter model
+      const currentFilterModel = gridApi.getFilterModel()
 
-  //   const newDate = event.target.value
-  //   setSelectedDate(newDate)
+      // Update the filter model for the author and title columns
+      currentFilterModel['author'] = author
+        ? { type: 'contains', filter: author }
+        : null
+      currentFilterModel['title'] = title
+        ? { type: 'contains', filter: title }
+        : null
 
-  //   gridApi?.updateGridOptions({ quickFilterText: newDate })
+      // Set the updated filter model back to the grid
+      gridApi.setFilterModel(currentFilterModel)
+    }
+  }
+
+  // Function to apply both author and title filters
+  // const applyFilters = (author, title) => {
+  //   const authorFilterComponent = gridApi?.getFilterInstance('author')
+  //   const titleFilterComponent = gridApi?.getFilterInstance('title')
+
+  //   authorFilterComponent.setModel({
+  //     type: 'contains',
+  //     filter: author,
+  //   })
+  //   titleFilterComponent.setModel({
+  //     type: 'contains',
+  //     filter: title,
+  //   })
+
+  //   gridApi?.onFilterChanged()
   // }
-  const updateGridFilters = () => {
-    const filterText = `${selectedAuthor} ${selectedTitle}`.trim()
-    gridApi?.updateGridOptions({ quickFilterText: filterText })
-  }
   // AG Grid ready event
   const onGridReady = (params: any) => {
-    updateGridFilters()
     setGridApi(params.api)
   }
-  console.log(onGridReady)
 
   return (
     <div>
       <LayoutContainer
         title="Royalties"
         authors={authors}
-        onselect={onselect}
+        onselect={onSelect}
         bookTitles={bookTitles}
         onTitle={onTitle}
       >

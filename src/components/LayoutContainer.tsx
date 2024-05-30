@@ -39,7 +39,7 @@ const LayoutContainer = ({
                   onChange={(e) => onselect(e)}
                   value=""
                 >
-                  <option value="">Select an Author</option>
+                  <option value="">Show All Authors</option>
                   {authors?.map((author, index) => (
                     <option key={index} value={author}>
                       {author}
@@ -55,7 +55,7 @@ const LayoutContainer = ({
                 onChange={(e) => onTitle(e)}
                 value=""
               >
-                <option value="">Titles</option>
+                <option value="">All Titles</option>
                 {bookTitles?.map((title, index) => (
                   <option key={index} value={title}>
                     {title}
