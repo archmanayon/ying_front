@@ -34,8 +34,10 @@ const AuthorList = () => {
 
     data?.forEach((item: any) => {
       authorsSet.add(item.author)
-      bookTitlesSet.add(item.title)
-      reportDatesSet.add(item.report_date)
+      if (selectedAuthor && selectedAuthor === item.author) {
+        bookTitlesSet.add(item.title)
+        reportDatesSet.add(item.report_date)
+      }
     })
     SetAuthors([...authorsSet])
     SetBookTitles([...bookTitlesSet])
