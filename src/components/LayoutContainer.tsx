@@ -1,19 +1,23 @@
 type Props = {
   children: React.ReactNode
   title: string
-  onInput?: (search: string) => void
   authors?: string[]
+  selectedAuthor?: string
+  selectedTitle?: string
   bookTitles?: string[]
-  onselect?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  onInput?: (search: string) => void
+  onSelectAuthor?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   onTitle?: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 const LayoutContainer = ({
   children,
-  onInput,
   authors,
-  onselect,
   bookTitles,
+  selectedAuthor,
+  selectedTitle,
+  onInput,
+  onSelectAuthor,
   onTitle,
 }: Props) => {
   return (
@@ -32,12 +36,12 @@ const LayoutContainer = ({
                 />
               </div>
             )}
-            {onselect && (
+            {onSelectAuthor && (
               <div>
                 <select
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(e) => onselect(e)}
-                  value=""
+                  onChange={(e) => onSelectAuthor(e)}
+                  value={selectedAuthor && selectedAuthor}
                 >
                   <option value="">Show All Authors</option>
                   {authors?.map((author, index) => (
@@ -53,7 +57,7 @@ const LayoutContainer = ({
               <select
                 className="block w-48 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 onChange={(e) => onTitle(e)}
-                value=""
+                value={selectedTitle && selectedTitle}
               >
                 <option value="">All Titles</option>
                 {bookTitles?.map((title, index) => (

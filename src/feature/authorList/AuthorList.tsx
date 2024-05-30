@@ -7,26 +7,28 @@ import { ColDef } from 'ag-grid-community'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-quartz.css'
 import { AgGridReact } from 'ag-grid-react'
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 const AuthorList = () => {
   usePageTitle('Author List')
 
   const [gridApi, setGridApi] = useState(null)
+
+  const [authors, SetAuthors] = useState<string[]>()
   const [selectedAuthor, setSelectedAuthor] = useState('')
-  const [authors, SetAuthors] = useState({})
-  const [bookTitles, SetBookTitles] = useState({})
+
+  const [bookTitles, SetBookTitles] = useState<string[]>()
   const [selectedTitle, setSelectedTitle] = useState('')
+
   const [columns, setColumns] = useState<ColDef[]>([])
   const [rows, setRows] = useState<Row[]>([])
   const { data, isPending } = useRoyalties()
 
-  // useMemo to memorize the unique authors
   useMemo(() => {
     const authorsSet = new Set<string>()
     const bookTitlesSet = new Set<string>()
 
-    data?.forEach((item) => {
+    data?.forEach((item: any) => {
       authorsSet.add(item.author)
       bookTitlesSet.add(item.title)
     })
@@ -54,7 +56,7 @@ const AuthorList = () => {
   }
 
   // Author dropdown (dapat 'newAuthor jud' fresh with 'SelectedTItle')
-  const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const onSelectAuthor = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newAuthor = event.target.value
     setSelectedAuthor(newAuthor)
     applyFilters(newAuthor, selectedTitle)
@@ -89,13 +91,15 @@ const AuthorList = () => {
   const onGridReady = (params: any) => {
     setGridApi(params.api)
   }
-  console.log(gridApi)
+
   return (
     <div>
       <LayoutContainer
         title="Royalties"
         authors={authors}
-        onselect={onSelect}
+        onSelectAuthor={onSelectAuthor}
+        selectedAuthor={selectedAuthor}
+        selectedTitle={selectedTitle}
         bookTitles={bookTitles}
         onTitle={onTitle}
       >
