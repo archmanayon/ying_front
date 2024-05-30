@@ -28,9 +28,7 @@ const AuthorList = () => {
       authorsSet.add(item.author)
     })
     SetAuthors([...authorsSet])
-  }, [data]) // Dependency array with 'data'
 
-  useEffect(() => {
     if (data && data.length) {
       const outputArray = Object.keys(data[0]).map((fieldName) => ({
         field: fieldName,
@@ -39,7 +37,18 @@ const AuthorList = () => {
       setColumns(outputArray)
       setRows(data)
     }
-  }, [data])
+  }, [data]) // Dependency array with 'data'
+
+  // useEffect(() => {
+  //   if (data && data.length) {
+  //     const outputArray = Object.keys(data[0]).map((fieldName) => ({
+  //       field: fieldName,
+  //     }))
+
+  //     setColumns(outputArray)
+  //     setRows(data)
+  //   }
+  // }, [data])
 
   if (isPending) {
     return (
