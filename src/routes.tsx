@@ -9,6 +9,7 @@ import Layout from './components/Layout'
 import Royalties from './feature/royalties/Royalties'
 import ImportRoyalties from './feature/import'
 import Reports from './feature/reports/Reports'
+import AuthorList from './feature/authorList/AuthorList'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +30,11 @@ const router = createBrowserRouter(
         <Route
           path="reports"
           element={<Reports />}
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="authorList"
+          element={<AuthorList />}
           errorElement={<ErrorPage />}
         />
       </Route>
