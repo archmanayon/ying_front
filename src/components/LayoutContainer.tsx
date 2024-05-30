@@ -1,24 +1,33 @@
 type Props = {
   children: React.ReactNode
   title: string
+  onInput?: (search: string) => void
+
   authors?: string[]
   selectedAuthor?: string
-  selectedTitle?: string
-  bookTitles?: string[]
-  onInput?: (search: string) => void
   onSelectAuthor?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+
+  bookTitles?: string[]
+  selectedTitle?: string
   onTitle?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+
+  reportDates?: string[]
+  selectedReportDate?: string
+  onReportDate?: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 const LayoutContainer = ({
   children,
-  authors,
-  bookTitles,
-  selectedAuthor,
-  selectedTitle,
   onInput,
+  authors,
+  selectedAuthor,
   onSelectAuthor,
+  bookTitles,
+  selectedTitle,
   onTitle,
+  reportDates,
+  selectedReportDate,
+  onReportDate,
 }: Props) => {
   return (
     <>
@@ -63,6 +72,21 @@ const LayoutContainer = ({
                 {bookTitles?.map((title, index) => (
                   <option key={index} value={title}>
                     {title}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            {onReportDate && (
+              <select
+                className="block w-48 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                onChange={(e) => onReportDate(e)}
+                value={selectedReportDate && selectedReportDate}
+              >
+                <option value="">All Dates</option>
+                {reportDates?.map((date, index) => (
+                  <option key={index} value={date}>
+                    {date}
                   </option>
                 ))}
               </select>

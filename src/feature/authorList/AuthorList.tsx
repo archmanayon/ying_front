@@ -20,6 +20,9 @@ const AuthorList = () => {
   const [bookTitles, SetBookTitles] = useState<string[]>()
   const [selectedTitle, setSelectedTitle] = useState('')
 
+  const [reportDates, SetReportDates] = useState<string[]>()
+  const [selectedReportDate, SetSelectedReportDate] = useState('')
+
   const [columns, setColumns] = useState<ColDef[]>([])
   const [rows, setRows] = useState<Row[]>([])
   const { data, isPending } = useRoyalties()
@@ -27,13 +30,16 @@ const AuthorList = () => {
   useMemo(() => {
     const authorsSet = new Set<string>()
     const bookTitlesSet = new Set<string>()
+    const reportDatesSet = new Set<string>()
 
     data?.forEach((item: any) => {
       authorsSet.add(item.author)
       bookTitlesSet.add(item.title)
+      reportDatesSet.add(item.report_date)
     })
     SetAuthors([...authorsSet])
     SetBookTitles([...bookTitlesSet])
+    SetReportDates([...reportDatesSet])
 
     if (data && data.length) {
       const outputArray = Object.keys(data[0]).map((fieldName) => ({
@@ -59,18 +65,25 @@ const AuthorList = () => {
   const onSelectAuthor = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newAuthor = event.target.value
     setSelectedAuthor(newAuthor)
-    applyFilters(newAuthor, selectedTitle)
+    applyFilters(newAuthor, selectedTitle, selectedReportDate)
   }
 
   // bookTitles dropdown handler
   const onTitle = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newTitle = event.target.value
     setSelectedTitle(newTitle)
-    applyFilters(selectedAuthor, newTitle)
+    applyFilters(selectedAuthor, newTitle, selectedReportDate)
   }
 
-  // Function to apply both author and title filters
-  const applyFilters = (author: string, title: string) => {
+  // ReportDates dropdown handler
+  const onReportDate = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newReportDate = event.target.value
+    SetSelectedReportDate(newReportDate)
+    applyFilters(selectedAuthor, selectedTitle, newReportDate)
+  }
+
+  // Function to apply both author, title, and reportDate filters
+  const applyFilters = (author: string, title: string, report_date: string) => {
     if (gridApi) {
       // Get the current filter model
       const currentFilterModel = gridApi.getFilterModel()
@@ -81,6 +94,10 @@ const AuthorList = () => {
         : null
       currentFilterModel['title'] = title
         ? { type: 'contains', filter: title }
+        : null
+
+      currentFilterModel['report_date'] = report_date
+        ? { type: 'contains', filter: report_date }
         : null
 
       // Set the updated filter model back to the grid
@@ -97,11 +114,14 @@ const AuthorList = () => {
       <LayoutContainer
         title="Royalties"
         authors={authors}
-        onSelectAuthor={onSelectAuthor}
         selectedAuthor={selectedAuthor}
-        selectedTitle={selectedTitle}
+        onSelectAuthor={onSelectAuthor}
         bookTitles={bookTitles}
+        selectedTitle={selectedTitle}
         onTitle={onTitle}
+        reportDates={reportDates}
+        selectedReportDate={selectedReportDate}
+        onReportDate={onReportDate}
       >
         <div className="h-[80vh]">
           {data && data.length ? (
