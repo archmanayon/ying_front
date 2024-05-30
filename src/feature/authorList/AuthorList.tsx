@@ -60,8 +60,37 @@ const AuthorList = () => {
     )
   }
 
-  const onselect = (search: string) => {
-    gridRef.current!.api.setGridOption('quickFilterText', search)
+  // AG Grid ready event
+  const onGridReady = (params: any) => {
+    setGridApi(params.api)
+  }
+
+  // Author dropdown change handler (deprecated)-------------
+  // const onselect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedAuthor(event.target.value)
+  //   gridApi?.setQuickFilter(event.target.value)
+  // }
+
+  // Author dropdown change handler
+  const onselect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newAuthor = event.target.value
+    setSelectedAuthor(newAuthor)
+
+    gridApi?.updateGridOptions({ quickFilterText: newAuthor })
+  }
+
+  // Date filter handler (deprecated)-------------
+  // const handleDateChange = (event) => {
+  //   setSelectedDate(event.target.value)
+  //   gridApi?.setQuickFilter(event.target.value)
+  // }
+
+  // Date filter handler
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newDate = event.target.value
+    setSelectedDate(newDate)
+
+    gridApi?.updateGridOptions({ quickFilterText: newDate })
   }
 
   return (
@@ -71,7 +100,7 @@ const AuthorList = () => {
           {data && data.length ? (
             <div className="ag-theme-quartz h-full w-full">
               <AgGridReact
-                ref={gridRef}
+                onGridReady={onGridReady}
                 rowData={rows}
                 columnDefs={columns}
                 defaultColDef={{

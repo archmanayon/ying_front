@@ -3,7 +3,7 @@ type Props = {
   title: string
   onInput?: (search: string) => void
   authors?: string[]
-  onselect?: (search: string) => void
+  onselect?: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 const LayoutContainer = ({
@@ -33,10 +33,7 @@ const LayoutContainer = ({
             )}
             {onselect && (
               <div>
-                <select
-                  onChange={(e) => onselect(e.currentTarget.value)}
-                  value=""
-                >
+                <select onChange={(e) => onselect(e)} value="">
                   <option value="">Select an Author</option>
                   {authors?.map((author, index) => (
                     <option key={index} value={author}>
