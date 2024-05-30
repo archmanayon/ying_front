@@ -7,7 +7,7 @@ import { ColDef } from 'ag-grid-community'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-quartz.css'
 import { AgGridReact } from 'ag-grid-react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 const AuthorList = () => {
   usePageTitle('Author List')
@@ -27,7 +27,7 @@ const AuthorList = () => {
   const [rows, setRows] = useState<Row[]>([])
   const { data, isPending } = useRoyalties()
 
-  useMemo(() => {
+  useEffect(() => {
     const authorsSet = new Set<string>()
     const bookTitlesSet = new Set<string>()
     const reportDatesSet = new Set<string>()
@@ -49,7 +49,7 @@ const AuthorList = () => {
       setColumns(outputArray)
       setRows(data)
     }
-  }, [data])
+  }, [data, selectedAuthor, selectedTitle, selectedReportDate])
 
   if (isPending) {
     return (
