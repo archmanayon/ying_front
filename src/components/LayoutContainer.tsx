@@ -53,7 +53,7 @@ const LayoutContainer = ({
                   value={selectedAuthor && selectedAuthor}
                 >
                   <option value="">Show All Authors</option>
-                  {authors?.map((author, index) => (
+                  {authors?.sort().map((author, index) => (
                     <option key={index} value={author}>
                       {author}
                     </option>
@@ -70,7 +70,7 @@ const LayoutContainer = ({
                   value={selectedTitle && selectedTitle}
                 >
                   <option value="">All Titles</option>
-                  {bookTitles?.map((title, index) => (
+                  {bookTitles?.sort().map((title, index) => (
                     <option key={index} value={title}>
                       {title}
                     </option>
@@ -87,7 +87,7 @@ const LayoutContainer = ({
                   value={selectedReportDate && selectedReportDate}
                 >
                   <option value="">All Dates</option>
-                  {reportDates?.map((date, index) => (
+                  {reportDates?.sort().map((date, index) => (
                     <option key={index} value={date}>
                       {date}
                     </option>
