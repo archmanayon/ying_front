@@ -9,21 +9,35 @@ import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-quartz.css'
 import { AgGridReact } from 'ag-grid-react'
 import { useEffect, useMemo, useState } from 'react'
+import { boolean } from 'yup'
 
 const AuthorList = () => {
   usePageTitle('Author List')
 
   const [gridApi, setGridApi] = useState(null)
+  const {
+    setAuthors,
+    selectedAuthor,
+    setSelectedAuthor,
+    setBookTitles,
+    selectedTitle,
+    setSelectedTitle,
+    setReportDates,
+    selectedReportDate,
+    setSelectedReportDate,
+  } = useDropdownStore()
 
-  const setAuthors = useDropdownStore((a) => a.setAuthors)
-  const selectedAuthor = useDropdownStore((a) => a.selectedAuthor)
-  const setSelectedAuthor = useDropdownStore((a) => a.setSelectedAuthor)
+  // const setAuthors = useDropdownStore((a) => a.setAuthors)
+  // const selectedAuthor = useDropdownStore((a) => a.selectedAuthor)
+  // const setSelectedAuthor = useDropdownStore((a) => a.setSelectedAuthor)
 
-  const [bookTitles, SetBookTitles] = useState<string[]>()
-  const [selectedTitle, setSelectedTitle] = useState('')
+  // const setBookTitles = useDropdownStore((a) => a.setBookTitles)
+  // const selectedTitle = useDropdownStore((a) => a.selectedTitle)
+  // const setSelectedTitle = useDropdownStore((a) => a.setSelectedTitle)
 
-  const [reportDates, SetReportDates] = useState<string[]>()
-  const [selectedReportDate, SetSelectedReportDate] = useState('')
+  // const setReportDates = useDropdownStore((a) => a.setReportDates)
+  // const selectedReportDate = useDropdownStore((a) => a.selectedReportDate)
+  // const setSelectedReportDate = useDropdownStore((a) => a.setSelectedReportDate)
 
   const [columns, setColumns] = useState<ColDef[]>([])
   const [rows, setRows] = useState<Row[]>([])
@@ -34,6 +48,7 @@ const AuthorList = () => {
     const bookTitlesSet = new Set<string>()
     const reportDatesSet = new Set<string>()
 
+    // setting up for dropdowns
     data?.forEach((item: any) => {
       if (selectedAuthor && selectedAuthor === item.author) {
         authorsSet.add(item.author)
@@ -43,8 +58,8 @@ const AuthorList = () => {
       authorsSet.add(item.author)
     })
     setAuthors(authorsSet)
-    SetBookTitles([...bookTitlesSet])
-    SetReportDates([...reportDatesSet])
+    setBookTitles(bookTitlesSet)
+    setReportDates(reportDatesSet)
 
     if (data && data.length) {
       const outputArray = Object.keys(data[0]).map((fieldName) => ({
@@ -67,7 +82,11 @@ const AuthorList = () => {
   }
 
   // Function to apply both author, title, and reportDate filters
-  const applyFilters = (author: string, title: string, report_date: string) => {
+  const applyFilters = (
+    author: string | undefined,
+    title: string | undefined,
+    report_date: string | undefined,
+  ) => {
     if (gridApi) {
       // Get the current filter model
       const currentFilterModel = gridApi.getFilterModel()
@@ -89,6 +108,7 @@ const AuthorList = () => {
     }
   }
   // Author dropdown (dapat 'newAuthor jud' fresh with 'SelectedTItle')
+
   const onSelectAuthor = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newAuthor = event.target.value
     setSelectedAuthor(newAuthor)
@@ -105,23 +125,21 @@ const AuthorList = () => {
   // ReportDates dropdown handler
   const onReportDate = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newReportDate = event.target.value
-    SetSelectedReportDate(newReportDate)
+    setSelectedReportDate(newReportDate)
     applyFilters(selectedAuthor, selectedTitle, newReportDate)
   }
 
   const onGridReady = (params: any) => {
     setGridApi(params.api)
   }
-
+  console.log(selectedAuthor)
   return (
     <div>
       <LayoutContainer
         title="Royalties"
         onSelectAuthor={onSelectAuthor}
-        bookTitles={bookTitles}
         selectedTitle={selectedTitle}
         onTitle={onTitle}
-        reportDates={reportDates}
         selectedReportDate={selectedReportDate}
         onReportDate={onReportDate}
       >
