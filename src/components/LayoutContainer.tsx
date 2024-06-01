@@ -1,10 +1,10 @@
+import useDropdownStore from '@/store/dropdownStore'
+
 type Props = {
   children: React.ReactNode
   title: string
   onInput?: (search: string) => void
 
-  authors?: string[]
-  selectedAuthor?: string
   onSelectAuthor?: (e: React.ChangeEvent<HTMLSelectElement>) => void
 
   bookTitles?: string[]
@@ -19,8 +19,6 @@ type Props = {
 const LayoutContainer = ({
   children,
   onInput,
-  authors,
-  selectedAuthor,
   onSelectAuthor,
   bookTitles,
   selectedTitle,
@@ -29,6 +27,8 @@ const LayoutContainer = ({
   selectedReportDate,
   onReportDate,
 }: Props) => {
+  const authors = useDropdownStore((a) => a.authors)
+  const selectedAuthor = useDropdownStore((a) => a.selectedAuthor)
   return (
     <>
       <div className="py-5">
